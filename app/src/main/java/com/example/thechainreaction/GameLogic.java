@@ -9,7 +9,7 @@ public class GameLogic {
 
 
     public static int playing = selectPlayersPage.play ;   // var for  the number of players
-    public int[][]  gridArr = new int[10][6];              // arr for the grid
+    public static int[][]  gridArr = new int[10][6];              // arr for the grid
     public static ArrayList<Integer> currentPlayers =  new ArrayList<Integer>();  // lst for the players
     public static int  player = 1  ;                       // var for the current player
 
@@ -189,38 +189,62 @@ public class GameLogic {
 
 
     //checks if the player is still in the board
-    private boolean checkPlayer(int j){
+    private static boolean checkPlayer(int j){
         /**
          * checks if the prbs of the player has been removed
          * @param j (player number)
          */
+        for (int i = 0; i < 6; i++) {
+            for (int w = 0; w < 10; w++) {
+                if ((gridArr[i][w]) % 10 == j)
+                    return true;
+            }
+        }
 
         return false ;
     }
 
     //checks if the player can play
-    public static boolean canPlay(int p){
+/*    public static boolean canPlay(int p){
         /**
          * checks if the player can play
          * @param p (player)
-         */
-       return true;
-    }
+         **/
+ //      return true;
+ //   }
 
     public static boolean isWin(){
         /**
          * checks if there's a winner/ win
          * @param none
          */
+        int numberAlive = 0;
+        for (int player : currentPlayers) {
+            if (checkPlayer(player)) {
+                numberAlive++;
+            }
+        }
+        if (numberAlive > 1) { //no winner
+            return false;
+        } else {
+            for (int player : currentPlayers) {
+                if (checkPlayer(player)) {
+
+
+                }
+            }
+        }
+
         return  true ;
     }
 
-    public static int  getWinner(){
+   /* public static int  getWinner(){
         /**
          * get the winner
          * @param none
          */
-        return 0 ;
+    //    return 0 ;
 
-    }
+
+ //   }
 }
