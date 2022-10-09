@@ -126,8 +126,41 @@ public class GameLogic {
          *  handles the explosions which occur at the edges
          * @param (r)row and c(column)  and p (player)
          **/
-         //top left corner
-        if (row == 0 && column == 0) {
+         //top edge
+         gridArr[r][c] == 0;
+         if (r == 0 && (c !==0 && c != 5)){
+            gridArr[r][c+1] == (10*p) + gridArr[r][c+1]%10 + 1;
+            gridArr[r][c-1] == (10*p) + gridArr[r][c-1]%10 + 1;
+            gridArr[r+1][c] == (10*p) + gridArr[r+1][c]%10 + 1;
+         }
+         //bottom edge
+         else if (r == 9 && (c !==0 && c != 5)){
+            gridArr[r][c+1] == (10*p) + gridArr[r][c+1]%10 + 1;
+            gridArr[r][c-1] == (10*p) + gridArr[r][c-1]%10 + 1;
+            gridArr[r-1][c] == (10*p) + gridArr[r-1][c]%10 + 1;
+         }
+         //left edge
+         else if (c == 0 && (r !==0 && r != 9)){
+            gridArr[r+1][c] == (10*p) + gridArr[r+1][c]%10 + 1;
+            gridArr[r-1][c] == (10*p) + gridArr[r-1][c]%10 + 1;
+            gridArr[r][c+1] == (10*p) + gridArr[r][c+1]%10 + 1;
+         }
+         //right edge
+         else if (c == 5 && (r !==0 && r != 9)){
+            gridArr[r+1][c] == (10*p) + gridArr[r+1][c]%10 + 1;
+            gridArr[r-1][c] == (10*p) + gridArr[r-1][c]%10 + 1;
+            gridArr[r][c-1] == (10*p) + gridArr[r][c-1]%10 + 1;
+         }
+       
+    }
+
+    //
+    private void handleCornerExplosion(int r , int c , int p){
+        /**
+         * handle the explosions that are happening at the corners
+         * @param (r)row , c(column)  and  p (player)
+         **/
+         if (row == 0 && column == 0) {
             gridArr[0][0] = 0;
             gridArr[0][1] = (10*p) + gridArr[0][1]%10 + 1;
             gridArr[1][0] = (10*p) + gridArr[1][0]%10 + 1;
@@ -150,16 +183,6 @@ public class GameLogic {
             gridArr[gridArr.length -2][gridArr.length-1] = (10*p) + gridArr[gridArr.length -2][gridArr.length-1]%10 +1;
             gridArr[gridArr.length -1][gridArr.length-2] =  (10*p) + gridArr[gridArr.length -1][gridArr.length-2]%10 +1;
         }
-    }
-
-    //
-    private void handleCornerExplosion(int r , int c , int p){
-        /**
-         * handle the explosions that are happening at the corners
-         * @param (r)row , c(column)  and  p (player)
-         **/
-
-
     }
 
     //
