@@ -2,7 +2,7 @@
 
 Group name: Chain Reaction
 
-Group members: [Michael Goosen, Mlibatisi Mamba, ]
+Group members: [Michael Goosen, Mlibatisi Mamba, Chulumanco Madodonke]
 
 Group mentor: [Insert your group mentor, if you have one (not mandatory)]
 
