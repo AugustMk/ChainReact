@@ -128,29 +128,29 @@ public class GameLogic {
          * @param (r)row and c(column)  and p (player)
          **/
          //top edge
-         gridArr[r][c] == 0;
-         if (r == 0 && (c !==0 && c != 5)){
-            gridArr[r][c+1] == (10*p) + gridArr[r][c+1]%10 + 1;
-            gridArr[r][c-1] == (10*p) + gridArr[r][c-1]%10 + 1;
-            gridArr[r+1][c] == (10*p) + gridArr[r+1][c]%10 + 1;
+         gridArr[r][c] = 0;
+         if (r == 0 && (c !=0 && c != 5)){
+            gridArr[r][c+1] = (10*p) + gridArr[r][c+1]%10 + 1;
+            gridArr[r][c-1] = (10*p) + gridArr[r][c-1]%10 + 1;
+            gridArr[r+1][c] = (10*p) + gridArr[r+1][c]%10 + 1;
          }
          //bottom edge
-         else if (r == 9 && (c !==0 && c != 5)){
-            gridArr[r][c+1] == (10*p) + gridArr[r][c+1]%10 + 1;
-            gridArr[r][c-1] == (10*p) + gridArr[r][c-1]%10 + 1;
-            gridArr[r-1][c] == (10*p) + gridArr[r-1][c]%10 + 1;
+         else if (r == 9 && (c !=0 && c != 5)){
+            gridArr[r][c+1] = (10*p) + gridArr[r][c+1]%10 + 1;
+            gridArr[r][c-1] = (10*p) + gridArr[r][c-1]%10 + 1;
+            gridArr[r-1][c] = (10*p) + gridArr[r-1][c]%10 + 1;
          }
          //left edge
-         else if (c == 0 && (r !==0 && r != 9)){
-            gridArr[r+1][c] == (10*p) + gridArr[r+1][c]%10 + 1;
-            gridArr[r-1][c] == (10*p) + gridArr[r-1][c]%10 + 1;
-            gridArr[r][c+1] == (10*p) + gridArr[r][c+1]%10 + 1;
+         else if (c == 0 && (r !=0 && r != 9)){
+            gridArr[r+1][c] = (10*p) + gridArr[r+1][c]%10 + 1;
+            gridArr[r-1][c] = (10*p) + gridArr[r-1][c]%10 + 1;
+            gridArr[r][c+1] = (10*p) + gridArr[r][c+1]%10 + 1;
          }
          //right edge
-         else if (c == 5 && (r !==0 && r != 9)){
-            gridArr[r+1][c] == (10*p) + gridArr[r+1][c]%10 + 1;
-            gridArr[r-1][c] == (10*p) + gridArr[r-1][c]%10 + 1;
-            gridArr[r][c-1] == (10*p) + gridArr[r][c-1]%10 + 1;
+         else if (c == 5 && (r !=0 && r != 9)){
+            gridArr[r+1][c] = (10*p) + gridArr[r+1][c]%10 + 1;
+            gridArr[r-1][c] = (10*p) + gridArr[r-1][c]%10 + 1;
+            gridArr[r][c-1] = (10*p) + gridArr[r][c-1]%10 + 1;
          }
        
     }
@@ -214,22 +214,23 @@ public class GameLogic {
     }
 
     // restart the game
-    public void restart(){
-        /**
-         *  clears the boards and reset the players
-         * @param none
-         *
-         **/
-        for (int i = 0; i < 6; i++) {
-            for (int w = 0; w < 10; w++) {
-                gridArr[i][w]= 0;
-            }
-    }
+   public void restart() {
+       /**
+        *  clears the boards and reset the players
+        * @param none
+        *
+        **/
+       for (int i = 0; i < 6; i++) {
+           for (int w = 0; w < 10; w++) {
+               gridArr[i][w] = 0;
+           }
+       }
+   }
 
 
 
     // checks if a player's orbs have been elimated and removes the player from playing
-    public void eliminatePlayer( ) {
+    public void eliminatePlayer() {
         /**
          *  removes  the players from the  gridArr  if the plauer's orbs are removed
          * @param (none
@@ -253,8 +254,7 @@ public class GameLogic {
          */
         for (int i = 0; i < 6; i++) {
             for (int w = 0; w < 10; w++) {
-                if ((gridArr[i][w]) / 10 == j)
-                    return true;
+                if ((gridArr[i][w]) / 10 == j) return true;
             }
         }
 
@@ -286,23 +286,18 @@ public class GameLogic {
         }
         if (numberAlive > 1) { //no winner
             return false;
-        } else {
-            for (int player : currentPlayers) {
-                if (checkPlayer(player)) {
-
-
-                }
-            }
         }
 
         return  true ;
     }
 
-    public static int  getWinner(){
+    public static  int  getWinner(){
         /**
          * get the winner
          * @param none
          */
-         if (currentPlayers.length ==1) return currentPlayers[0];
+         if (currentPlayers.size() ==1) return currentPlayers.get(0);
+
+         return -1;
    }
 }
