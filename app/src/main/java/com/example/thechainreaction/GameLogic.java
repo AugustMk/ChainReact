@@ -93,31 +93,32 @@ public class GameLogic {
         THE NUMBER OF ORBS IN  THAT CELL
         E.G IF  IF GRID[5][2] = 23 , IT MEANS THE CELL IS OCCUPIED BY  PLAYER WHITE AND THE CELL HAS BEEN FILED WITH THREE ORBS
          */
+
         if(gridArr[r][c] ==0){   //checks if the cell is empty
-            gridArr[r][c] = player* 10 +1  ;
-            return true ;}
+            gridArr[r][c] = (player +1) *10 + 1 ;
+            return true ;
+        }else if ((gridArr[r][c]) /10 ==(player +1) && (gridArr[r][c]) % 10 < 3){
+            gridArr[r][c] +=1;
+            return true ;
+        }
 
-         //u have to vhecl for other conditions !!
+            return false;
+        }
+        private  boolean isEdge( int r , int c){
+            /**
+             * checks whether the cell clicked is at the edge
+             * @param (r)row and c(column)
+             **/
+            return (r == 0 && c == 0) || (r == 9 && c == 5);
+        }
 
-        return false;
-    }
-
-
-    private  boolean isEdge( int r , int c){
-        /**
-         * checks whether the cell clicked is at the edge
-         * @param (r)row and c(column)
-         **/
-        return true;
-    }
-
-    private  boolean isCorner(int r , int c){
-        /**
-         * checks whether the cell clicked is at the corner
-         * @param (r)row and c(column)
-         **/
-        return true;
-    }
+        private  boolean isCorner(int r , int c){
+            /**
+             * checks whether the cell clicked is at the corner
+             * @param (r)row and c(column)
+             **/
+            return (r ==0 || r == 9) && (c ==0 || c== 5);
+        }
 
 
     //handle explosions that are at the  edges
