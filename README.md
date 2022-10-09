@@ -2,11 +2,11 @@
 
 Group name: Chain Reaction
 
-Group members: [Insert group members’ full names]
+Group members: [Michael Goosen, Mlibatisi Mamba, ]
 
 Group mentor: [Insert your group mentor, if you have one (not mandatory)]
 
-Project title: [Insert a title for your project ]
+Project title: [ChainReact ]
 
 Project page: [Insert the GitHub web address of your shared repository]
 
