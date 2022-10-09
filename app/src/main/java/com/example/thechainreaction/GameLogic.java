@@ -206,6 +206,10 @@ public class GameLogic {
          *  change the color of the orbs  in a cell which an orb explode to and move the orb to the  cell
          * @param (r)row , c(column)  and  p (player)
          **/
+         if (isEdge(r,c)) handleEdgeExplosion(r,c,p);
+         else if (isCorner(r,c)) handleCornerExplosion(r,c,p);
+         else handleExplosion(r,c,p);
+         
 
     }
 
