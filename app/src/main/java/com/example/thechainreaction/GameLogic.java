@@ -156,7 +156,7 @@ public class GameLogic {
     }
 
     //
-    private void handleCornerExplosion(int r , int c , int p){
+    private void handleCornerExplosion(int row , int column , int p){
         /**
          * handle the explosions that are happening at the corners
          * @param (r)row , c(column)  and  p (player)
@@ -220,7 +220,10 @@ public class GameLogic {
          * @param none
          *
          **/
-
+        for (int i = 0; i < 6; i++) {
+            for (int w = 0; w < 10; w++) {
+                gridArr[i][w]= 0;
+            }
     }
 
 
