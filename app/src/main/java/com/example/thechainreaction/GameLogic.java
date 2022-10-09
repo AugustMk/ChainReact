@@ -9,7 +9,7 @@ public class GameLogic {
 
 
     public static int playing = selectPlayersPage.play ;   // var for  the number of players
-    public static int[][]  gridArr = new int[10][6];              // arr for the grid
+    public static int[][]  gridArr = new int[10][6];              // arr for the gridArr
     public static ArrayList<Integer> currentPlayers =  new ArrayList<Integer>();  // lst for the players
     public static int  player = 1  ;                       // var for the current player
 
@@ -34,7 +34,7 @@ public class GameLogic {
 
     private void createGrid() {
         /**
-         *  insert  zeros into the grid to represent an empty cell
+         *  insert  zeros into the gridArr to represent an empty cell
          * @param none
          */
 
@@ -126,8 +126,30 @@ public class GameLogic {
          *  handles the explosions which occur at the edges
          * @param (r)row and c(column)  and p (player)
          **/
-
-
+         //top left corner
+        if (row == 0 && column == 0) {
+            gridArr[0][0] = 0;
+            gridArr[0][1] = (10*p) + gridArr[0][1]%10 + 1;
+            gridArr[1][0] = (10*p) + gridArr[1][0]%10 + 1;
+        }
+        //bottom left corner
+        else if (row == gridArr.length - 1 && column == 0){
+            gridArr[0][gridArr.length - 1] = 0;
+            gridArr[gridArr.length-2][0] = (10*p) + gridArr[gridArr.length-2][0]%10 +1;
+            gridArr[gridArr.length-1][1] = (10*p) + gridArr[gridArr.length-1][1]%10 +1;
+        }
+        //top right corner
+        else if (row == 0 && column == gridArr[0].length - 1){
+            gridArr[gridArr.length-1][0] = 0;
+            gridArr[0][gridArr.length-2] = (10*p) + gridArr[0][gridArr.length-2]%10 +1;
+            gridArr[1][gridArr.length-2] = (10*p) + gridArr[1][gridArr.length-2]%10 +1;
+        }
+        //bottom right corner
+        else {
+            gridArr[gridArr.length-1][gridArr.length-1] = 0;
+            gridArr[gridArr.length -2][gridArr.length-1] = (10*p) + gridArr[gridArr.length -2][gridArr.length-1]%10 +1;
+            gridArr[gridArr.length -1][gridArr.length-2] =  (10*p) + gridArr[gridArr.length -1][gridArr.length-2]%10 +1;
+        }
     }
 
     //
@@ -174,7 +196,7 @@ public class GameLogic {
     // checks if a player's orbs have been elimated and removes the player from playing
     public void eliminatePlayer( ) {
         /**
-         *  removes  the players from the  grid  if the plauer's orbs are removed
+         *  removes  the players from the  gridArr  if the plauer's orbs are removed
          * @param (none
          **/
         if (Grid.rounds >= playing) {
