@@ -191,8 +191,11 @@ public class GameLogic {
          * handle explosions that are happenning anywhere except the corners or the edge
          * @param (r)row , c(column)  and  p (player)
          **/
-
-
+         gridArr[r][c] = 0;
+         gridArr[r][c+1] = (10*p) + gridArr[r][c+1]%10 + 1;
+         gridArr[r][c-1] = (10*p) + gridArr[r][c-1]%10 + 1;
+         gridArr[r+1][c] = (10*p) + gridArr[r+1][c]%10 + 1;
+         gridArr[r-1][c] = (10*p) + gridArr[r-1][c]%10 + 1;
     }
 
     // move
