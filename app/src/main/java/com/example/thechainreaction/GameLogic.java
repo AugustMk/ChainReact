@@ -250,7 +250,7 @@ public class GameLogic {
          */
         for (int i = 0; i < 6; i++) {
             for (int w = 0; w < 10; w++) {
-                if ((gridArr[i][w]) % 10 == j)
+                if ((gridArr[i][w]) / 10 == j)
                     return true;
             }
         }
@@ -259,13 +259,16 @@ public class GameLogic {
     }
 
     //checks if the player can play
-/*    public static boolean canPlay(int p){
+        public static boolean canPlay(int p){
         /**
          * checks if the player can play
          * @param p (player)
          **/
- //      return true;
- //   }
+         for (int i: currentPlayers){
+            if (i ==p) return true;
+         }
+        return false;
+   }
 
     public static boolean isWin(){
         /**
@@ -292,13 +295,11 @@ public class GameLogic {
         return  true ;
     }
 
-   /* public static int  getWinner(){
+    public static int  getWinner(){
         /**
          * get the winner
          * @param none
          */
-    //    return 0 ;
-
-
- //   }
+         if (currentPlayers.length ==1) return currentPlayers[0];
+   }
 }
