@@ -15,8 +15,16 @@ public class GameLogic {
 
 
     public  GameLogic(){
-        createGrid();
         player();
+        while(!isWin()){
+            if (canPlay(player)){
+                //insertB(int r , int c );
+                explodeAll();
+                eliminatePlayer();
+                player = nextPlayer();
+            }
+
+        }
     }
        /*
       0 -> EMPTY CELL
@@ -31,13 +39,10 @@ public class GameLogic {
      9 - > PLAYER 9 : GREEN
      */
 
-
-    private void createGrid() {
-        /**
-         *  insert  zeros into the gridArr to represent an empty cell
-         * @param none
-         */
+    public int[][] getGridArr() {
+        return gridArr;
     }
+
     private void  player(){
             /**
              *  insert the players into the current players list
@@ -66,9 +71,6 @@ public class GameLogic {
         return (firstPlayerTurn) ?  currentPlayers.get(0) : currentPlayers.get(player);
     }
 
-    public int[][] getGridArr() {
-        return gridArr;
-    }
 
     public  boolean insertB(int r , int c ){
         /**
@@ -289,7 +291,7 @@ public class GameLogic {
     }
 
     //checks if the player can play
-        public static boolean canPlay(int p){
+        public  boolean canPlay(int p){
         /**
          * checks if the player can play
          * @param p (player)
