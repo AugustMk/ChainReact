@@ -109,6 +109,9 @@ public class GameLogic {
              **/
             return (r ==0 || r == 9) && (c ==0 || c== 5);
         }
+        private boolean isCentre(int row, int column){
+        return !(isCorner(row,column) || isEdge(row,column));
+        }
 
 
     //handle explosions that are at the  edges
@@ -200,8 +203,15 @@ public class GameLogic {
          else if (isCorner(r,c)) handleCornerExplosion(r,c,p);
          else handleExplosion(r,c,p);
     }
-    public static boolean isUnstableCell(int row, int column){
+    public boolean isCellEmpty(int row, int column){
+        return gridArr[row][column]==0;
+    }
+    public  boolean isUnstableCell(int row, int column){
         // return boolean: is this cell unstable
+        if (isCellEmpty(row,column)) return false;
+        else if (isCorner(row,column) && gridArr[row][column]%10 >1 ) return true;
+        else if (isEdge(row,column) && gridArr[row][column]%10 >2) return true;
+        else if (isCentre(row,column) && gridArr[row][column]%10 >3) return true;
         return true;
     }
     public  boolean isUnstableGrid(){
