@@ -10,7 +10,7 @@ public class GameLogic {
 
     public static int playing = selectPlayersPage.play ;   // var for  the number of players
     public static int[][]  gridArr = new int[10][6];              // arr for the gridArr
-    public static ArrayList<Integer> currentPlayers =  new ArrayList<Integer>();  // lst for the players
+    public static ArrayList<Integer> currentPlayers = new ArrayList<>();  // lst for the players
     public static int  player = 1  ;                       // var for the current player
 
 
@@ -53,17 +53,17 @@ public class GameLogic {
          *   change the player
          * @param none
          */
-        boolean firstplayerturn = this.player == playing || currentPlayers.size()==1 || currentPlayers.indexOf(player) == currentPlayers.size();
-        this.player = (firstplayerturn) ?  currentPlayers.get(0) : currentPlayers.get(player);
+        boolean firstPlayerTurn = player == playing || currentPlayers.size()==1 || currentPlayers.indexOf(player) == currentPlayers.size();
+        player = (firstPlayerTurn) ?  currentPlayers.get(0) : currentPlayers.get(player);
     }
 
     public static int nextPlayer(){
         /**
-         *   checks who's playimg after the current player
+         *   checks who's playing after the current player
          * @param none
          */
-        boolean firstplayerturn = player == playing || currentPlayers.size()==1 || currentPlayers.indexOf(player) == currentPlayers.size();
-        return (firstplayerturn) ?  currentPlayers.get(0) : currentPlayers.get(player);
+        boolean firstPlayerTurn = player == playing || currentPlayers.size()==1 || currentPlayers.indexOf(player) == currentPlayers.size();
+        return (firstPlayerTurn) ?  currentPlayers.get(0) : currentPlayers.get(player);
     }
 
     public int[][] getGridArr() {
@@ -183,7 +183,7 @@ public class GameLogic {
     //
     private void handleExplosion(int r , int c , int p){
         /**
-         * handle explosions that are happenning anywhere except the corners or the edge
+         * handle explosions that are happening anywhere except the corners or the edge
          * @param (r)row , c(column)  and  p (player)
          **/
          gridArr[r][c] = 0;
@@ -276,7 +276,7 @@ public class GameLogic {
     //checks if the player is still in the board
     private static boolean checkPlayer(int j){
         /**
-         * checks if the prbs of the player has been removed
+         * checks if the orbs of the player has been removed
          * @param j (player number)
          */
         for (int i = 0; i < 6; i++) {
@@ -311,11 +311,7 @@ public class GameLogic {
                 numberAlive++;
             }
         }
-        if (numberAlive > 1) { //no winner
-            return false;
-        }
-
-        return  true ;
+        return numberAlive <= 1;
     }
 
     public static  int  getWinner(){
