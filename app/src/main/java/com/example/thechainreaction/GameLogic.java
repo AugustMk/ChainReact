@@ -37,10 +37,7 @@ public class GameLogic {
          *  insert  zeros into the gridArr to represent an empty cell
          * @param none
          */
-
-
     }
-
     private void  player(){
             /**
              *  insert the players into the current players list
@@ -49,13 +46,9 @@ public class GameLogic {
         for(int k = 1 ; k <= playing  ; k ++){
             currentPlayers.add(k) ;
         }
-
     }
 
-
-
     public void setPlayer() {
-
         /**
          *   change the player
          * @param none
@@ -73,14 +66,11 @@ public class GameLogic {
         return (firstplayerturn) ?  currentPlayers.get(0) : currentPlayers.get(player);
     }
 
-
     public int[][] getGridArr() {
         return gridArr;
     }
 
-
     public  boolean insertB(int r , int c ){
-
         /**
          * placing the  player's orb into the array
          *  first letter represent the color of the player , and the second letter  represent the number of players to place in cell
@@ -209,8 +199,35 @@ public class GameLogic {
          if (isEdge(r,c)) handleEdgeExplosion(r,c,p);
          else if (isCorner(r,c)) handleCornerExplosion(r,c,p);
          else handleExplosion(r,c,p);
-         
-
+    }
+    public static boolean isUnstableCell(int row, int column){
+        // return boolean: is this cell unstable
+        return true;
+    }
+    public  boolean isUnstableGrid(){
+        // return boolean: are there any unstable cells
+        for (int row =0; row<10;row++){
+            for (int column = 0; column<6;column++){
+                if (isUnstableCell(row,column)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public void explodeAll(){
+        //explodes unstable cells until the grid is stable
+        boolean unstable = isUnstableGrid();
+        while (unstable){
+            for (int row =0; row<10;row++){
+                for (int column = 0; column<6;column++){
+                    if (isUnstableCell(row,column)){
+                        explode(row,column,player);
+                    }
+                }
+            }
+            unstable = isUnstableGrid();
+        }
     }
 
     // restart the game
@@ -229,10 +246,10 @@ public class GameLogic {
 
 
 
-    // checks if a player's orbs have been elimated and removes the player from playing
+    // checks if a player's orbs have been eliminated and removes the player from playing
     public void eliminatePlayer() {
         /**
-         *  removes  the players from the  gridArr  if the plauer's orbs are removed
+         *  removes  the players from the  gridArr  if the player's orbs are removed
          * @param (none
          **/
         if (Grid.rounds >= playing) {
