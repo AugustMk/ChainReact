@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="Grid">
+        <attr name="black" format="color"/>
         <attr name="gridRed" format="color"/>
         <attr name="gridBlue" format="color"/>
         <attr name="gridGreen" format="color"/>
@@ -10,6 +11,7 @@
         <attr name="gridWhite" format="color"/>
         <attr name="gridPink" format="color"/>
         <attr name="gridSblue" format="color"/>
+
 
 
     </declare-styleable>

@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,12 +22,14 @@ import java.util.List;
 
 public class Grid  extends View {
 
-    private final int[]  colors = new int[9]; // array to contain all the player's colors
+    private final  int color  ; // array to contain all the player's colors
     private final Paint pnt = new Paint();    // paint brush for drawing the grid
     private int sizeC ;                       //  var for cell size
+    GameLogic logic = new GameLogic();
     public static  int rounds = 0  ;          // var for how many orbs have been placed on the grid
     private int player ;                      // var for the current player
     private final Particles particles ;       // game logic class
+    Boolean winner = false ;
     public HashMap<Integer , Integer > playerColors = new HashMap<Integer , Integer >();  // hp for the colors of the player's orbs
 
 
@@ -35,6 +38,7 @@ public class Grid  extends View {
 
         TypedArray ats = context.getTheme().obtainStyledAttributes(attrs,R.styleable.Grid ,0 ,0); //gets the color from the xml files
         try{
+            color = ats.getInteger(R.styleable.Grid_black , 0);
              playerColors.put(1 ,ats.getInteger(R.styleable.Grid_gridRed ,0) );
              playerColors.put(2 , ats.getInteger(R.styleable.Grid_gridWhite ,0));
             playerColors.put( 3 , ats.getInteger(R.styleable.Grid_gridBlue ,0) );
@@ -57,7 +61,7 @@ public class Grid  extends View {
     protected void onMeasure(int w , int h){
         super.onMeasure(w, h);
         int minL = Math.min(getMeasuredWidth(), getMeasuredHeight());       // get the minimum length of  between the user's  screen width & height
-        setMeasuredDimension( (int) (minL * 0.60) , (int) (minL * 0.98) );  // set the dimensions of the  grid in ratio that makes sure that all the squares fit into a rectangles
+        setMeasuredDimension( (int) (minL * 0.60) , (int) (minL * 0.90) );  // set the dimensions of the  grid in ratio that makes sure that all the squares fit into a rectangles
         sizeC=  (int) (minL * 0.6 /6);                                      //  determine the sizes of the cell (squares)
         particles.setSizeC(sizeC);
 
@@ -67,10 +71,10 @@ public class Grid  extends View {
     public boolean onTouchEvent(MotionEvent e){
 
         if (e.getAction() == MotionEvent.ACTION_DOWN) {   // checks if the user clicked inside the grid
-          if(!GameLogic.isWin()){                         //checks if there's a win
-              if ( particles.modifyGridArr((int) Math.ceil(e.getY() / sizeC) - 1, (int) Math.ceil(e.getX() / sizeC) - 1) ) {  //  determine whih row % column was clicked and populate the corrosponding  array element
-                  particles.eliminate();                       //eliminate player
-                  particles.changePlayer();                    //change the player
+          if(!logic.isWin()){                         //checks if there's a win
+              if ( logic.insertB((int) Math.ceil(e.getY() / sizeC) - 1, (int) Math.ceil(e.getX() / sizeC) - 1) ) {  //  determine whih row % column was clicked and populate the corrosponding  array element
+                  logic.eliminatePlayer();                       //eliminate player
+                  logic.setPlayer();                    //change the player
                   player = GameLogic.player;
                   invalidate();                               //calls the onDraw method
                   rounds++ ;
@@ -93,8 +97,11 @@ public class Grid  extends View {
     protected void onDraw(Canvas canvas){
         pnt.setColor( playerColors.get(player));
         drawGrid(canvas);
-
         particles.placeBalls(canvas);
+
+//        if(logic.isWin()){
+//            winnerDisplay(canvas);
+//        }
 
 
     }
@@ -117,15 +124,32 @@ public class Grid  extends View {
         canvas.drawLine( (float)(sizeC * 6 - sizeC * 0.1), 0, (float) (sizeC * 6 - sizeC * 0.1), canvas.getHeight(), pnt);
         //draws the rows of the grid
         //rows
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 10; i++) {
             canvas.drawLine(0, sizeC * i, canvas.getWidth(), sizeC * i, pnt);
             canvas.drawLine(0, (float) (sizeC * i + sizeC * 0.1), canvas.getWidth(), (float) (sizeC * i+ sizeC * 0.1), pnt);
         }
         canvas.drawLine(0, (float) canvas.getHeight(), canvas.getWidth(), (float) canvas.getHeight(), pnt);
     }
+
+    private void winnerDisplay(Canvas canvas){
+        Paint pnt2 = new Paint();
+        pnt2.setColor(color);
+        pnt2.setAntiAlias(true);
+        pnt2.setStyle(Paint.Style.FILL);
+        pnt.setTextSize(55);
+        canvas.drawRect((float )(sizeC*1.5) , (float)(sizeC*3.5) , (float)(sizeC*4.5) , (float) (sizeC*5.5) , pnt2);
+        canvas.drawText("player "+ logic.getWinner() +" has won" , (float) (sizeC*1.65)  , (float)(sizeC*4.5) , pnt );
+    }
+
+    public void game(Button btn){
+        logic.setbtn(btn);
+
+    }
     //restarting the game
     public void restartGame() {
-        particles.restart();
+        pnt.setColor( playerColors.get(player));
+        rounds = 0 ;
+        logic.restart();
     }
 
 

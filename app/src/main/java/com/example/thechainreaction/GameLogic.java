@@ -1,5 +1,8 @@
 package com.example.thechainreaction;
 
+import android.view.View;
+import android.widget.Button;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -9,7 +12,8 @@ public class GameLogic {
 
 
     public static int playing = selectPlayersPage.play ;   // var for  the number of players
-    public int[][]  gridArr = new int[10][6];              // arr for the grid
+    public static int[][]  gridArr = new int[10][6];              // arr for the grid
+    private Button  restartGame ;
     public static ArrayList<Integer> currentPlayers =  new ArrayList<Integer>();  // lst for the players
     public static int  player = 1  ;                       // var for the current player
 
@@ -38,14 +42,20 @@ public class GameLogic {
          * @param none
          */
 
+        for (int k = 0; k < 10; k++) {
+            for (int i = 0; i < 6; i++) {
+                gridArr[k][i] = 0;
+            }
+
+        }
 
     }
 
     private void  player(){
-            /**
-             *  insert the players into the current players list
-             * @param none
-             */
+        /**
+         *  insert the players into the current players list
+         * @param none
+         */
         for(int k = 1 ; k <= playing  ; k ++){
             currentPlayers.add(k) ;
         }
@@ -72,9 +82,9 @@ public class GameLogic {
         boolean firstplayerturn = player == playing || currentPlayers.size()==1 || currentPlayers.indexOf(player) == currentPlayers.size();
         return (firstplayerturn) ?  currentPlayers.get(0) : currentPlayers.get(player);
     }
+    // get the grid array
+    public  static int[][] getGridArr() {
 
-
-    public int[][] getGridArr() {
         return gridArr;
     }
 
@@ -86,18 +96,29 @@ public class GameLogic {
          *  first letter represent the color of the player , and the second letter  represent the number of players to place in cell
          * @param  (r)row and c(column)
          */
-        /*
-        MUST READ !!!!!!
-
-        AN OCCUPIED CELL IS REPRESENTED BY TWO NUMBERS , THE FIRST NUMBER REPRESENT THE COLOR AND THE LAST NUMBER REPRESENT
-        THE NUMBER OF ORBS IN  THAT CELL
-        E.G IF  IF GRID[5][2] = 23 , IT MEANS THE CELL IS OCCUPIED BY  PLAYER WHITE AND THE CELL HAS BEEN FILED WITH THREE ORBS
-         */
         if(gridArr[r][c] ==0){   //checks if the cell is empty
             gridArr[r][c] = player* 10 +1  ;
             return true ;}
 
-         //u have to vhecl for other conditions !!
+        else if(gridArr[r][c]/ 10 != player){  // checks if the cell clicked contains the balls of the player
+            return false ;
+        }
+        else if(isCorner(r , c)  && gridArr[r][c]%10 ==1) {     // checks if the  cell clicked is at the corner and cotains one orb
+            handleCornerExplosion(r, c,player);
+            return true ;
+
+        }else if(isEdge(r , c ) && gridArr[r][c]%10 ==2  ) {   // checks if the  cell clicked is at the edge and cotains 2 orbs
+            handleEdgeExplosion(r, c, player);
+            return true;
+
+        }else if (gridArr[r][c]%10 == 3){          //checks if the  cell contains 3 orbs ;
+            handleExplosion(r , c , player);
+            return true ;
+
+        } else if (gridArr[r][c] >0  && gridArr[r][c]%10 < 3  ){   // increment the number of orbs in a cell ;
+            gridArr[r][c] =gridArr[r][c] +1;
+            return true;
+        }
 
         return false;
     }
@@ -108,7 +129,7 @@ public class GameLogic {
          * checks whether the cell clicked is at the edge
          * @param (r)row and c(column)
          **/
-        return true;
+        return ((r==0 || r == 9) && c != 0 &&  c != 5)|| ( (c == 0 || c == 5) && r != 0  && r != 9);
     }
 
     private  boolean isCorner(int r , int c){
@@ -116,7 +137,7 @@ public class GameLogic {
          * checks whether the cell clicked is at the corner
          * @param (r)row and c(column)
          **/
-        return true;
+        return (r == 0 && (c == 0|| c == 5))|| ( r == 8 && ( c == 0 || c == 5));
     }
 
 
@@ -127,6 +148,21 @@ public class GameLogic {
          * @param (r)row and c(column)  and p (player)
          **/
 
+        if( c== 0 || c == 5){
+            explode( r+1 ,  c , p);
+            explode( r-1 ,c , p );
+            if (c == 0 ){explode(r , c+1 , p );}
+            else  { explode(r, c -1, p ); }
+
+
+        } else if (r == 0 || r == 8){
+            explode( r ,  c-1 , p);
+            explode( r ,c+1 , p );
+            if (r == 0 ){explode(r+1 , c , p );}
+            else  { explode(r-1, c , p ); }
+
+        }
+        gridArr[r][c] = 0 ;  // remove the orbs in the exploding cell
 
     }
 
@@ -137,7 +173,9 @@ public class GameLogic {
          * @param (r)row , c(column)  and  p (player)
          **/
 
-
+        if( r== 0) {explode(r+1 , c , p );} else{explode(r-1 , c , p );}
+        if (c==0){ explode(r, c+1 , p );} else {  explode(r, c-1 , p );}
+        gridArr[r][c] = 0 ;   // remove the orbs in the exploding cell
     }
 
     //
@@ -147,7 +185,11 @@ public class GameLogic {
          * @param (r)row , c(column)  and  p (player)
          **/
 
-
+        explode( r ,  c-1 , p);
+        explode( r ,c+1 , p );
+        explode(r+1 , c , p );
+        explode(r-1 , c , p );
+        gridArr[r][c] = 0 ;     // remove the orbs in the exploding cell
     }
 
     // move
@@ -157,6 +199,12 @@ public class GameLogic {
          * @param (r)row , c(column)  and  p (player)
          **/
 
+        if (gridArr[r][c] / 10 != p) {
+            gridArr[r][c] = p * 10 +  (gridArr[r][c] % 10);   // change the color of the orbs to that of the exploding orbs
+            insertB(r , c);
+        } else{
+            insertB(r , c);
+        }
     }
 
     // restart the game
@@ -166,24 +214,37 @@ public class GameLogic {
          * @param none
          *
          **/
-
+        currentPlayers.clear();
+        for (int k = 0 ; k < 9 ; k++) {
+            for (int i = 0; i < 6; i++) {
+                gridArr[k][i] = 0;       //change every element in the 2d array to 0
+            }
+        }
+        for(int k = 1 ; k <= playing  ; k ++){
+            currentPlayers.add(k) ;
+        }
+        player = currentPlayers.get(0);          //reset the  player counter
     }
 
+    //checks if only one player is playing and declare the winner
+//    public  boolean checkWin(){
+//         return currentPlayers.size()==1 ;
+//    }
 
 
     // checks if a player's orbs have been elimated and removes the player from playing
     public void eliminatePlayer( ) {
         /**
-         *  removes  the players from the  grid  if the plauer's orbs are removed
+         *  removes  the players from the  grid  if elimated
          * @param (none
          **/
         if (Grid.rounds >= playing) {
-                for (Iterator<Integer> iterator = currentPlayers.iterator(); iterator.hasNext(); ) {
-                    int value = iterator.next();
-                    if (!(checkPlayer(value))) {
-                        iterator.remove();
-                    }
+            for (Iterator<Integer> iterator = currentPlayers.iterator(); iterator.hasNext(); ) {
+                int value = iterator.next();
+                if (!(checkPlayer(value))) {
+                    iterator.remove();
                 }
+            }
         }
     }
 
@@ -194,6 +255,13 @@ public class GameLogic {
          * checks if the prbs of the player has been removed
          * @param j (player number)
          */
+        for (int k = 0 ; k < 9 ; k++) {
+            for (int i = 0; i < 6; i++) {
+                if (gridArr[k][i] / 10 == j) {
+                    return true;
+                }
+            }
+        }
 
         return false ;
     }
@@ -204,23 +272,31 @@ public class GameLogic {
          * checks if the player can play
          * @param p (player)
          */
-       return true;
+        return currentPlayers.contains(p);
+    }
+    public void setbtn(Button btn){
+        this.restartGame = btn ;
     }
 
-    public static boolean isWin(){
+    public  boolean isWin(){
         /**
          * checks if there's a winner/ win
          * @param none
          */
-        return  true ;
+        boolean winner = currentPlayers.size()== 1 ;
+        if(winner){
+            restartGame.setVisibility(View.VISIBLE);
+        }
+        return  winner;
     }
 
-    public static int  getWinner(){
+
+    public  int  getWinner(){
         /**
          * get the winner
          * @param none
          */
-        return 0 ;
+        return  currentPlayers.get(0);
 
     }
 }

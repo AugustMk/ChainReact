@@ -2,11 +2,12 @@ package com.example.thechainreaction;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.widget.Button;
 
 import java.util.HashMap;
 
 public class Particles {
-    GameLogic logic = new GameLogic();
+
     private HashMap<Integer , Integer > colors ;
     private int sizeC  ;
     private Paint pntFill = new Paint();
@@ -60,33 +61,16 @@ public class Particles {
 
     // method that drq
     public void placeBalls(Canvas canvas){
-        for (int k = 0 ; k < 9 ; k++){
+        for (int k = 0  ; k < 10 ; k++){
             for(int i = 0 ;  i < 6; i++){
-                if(logic.getGridArr()[k][i] != 0 && logic.getGridArr()[k][i]/10 != 0){   // check whether the the cell is empty
-                    drawBall(canvas , i, k ,logic.getGridArr()[k][i]);
+                if(GameLogic.getGridArr()[k][i] != 0 && GameLogic.getGridArr()[k][i]/10 != 0){   // check whether the the cell is empty
+                    drawBall(canvas , i, k ,GameLogic.getGridArr()[k][i]);
                 }
             }
         }
 
     }
 
-    public boolean modifyGridArr(int row , int column){
-        return logic.insertB(row , column);
-    }
-
-
-    public void eliminate(){
-         logic.eliminatePlayer();
-    }
-
-    public void changePlayer(){
-        logic.setPlayer();
-    }
-
-
-    public void restart(){
-        logic.restart();
-    }
 
 
 

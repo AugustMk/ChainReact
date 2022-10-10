@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -29,13 +30,15 @@ public class playingPage extends AppCompatActivity {
         animationDrawable.start();
         //players = findViewById(R.id.numPlayers).toString();
         grid = findViewById(R.id.Grid);
+        Button btn = findViewById(R.id.btnResta);
+        btn.setVisibility(View.GONE);
+        grid.game(btn);
+
         //winner = findViewById(R.id.showWinner);
 
 
 
-        if (GameLogic.isWin()){
-            win();
-        }
+
 
         //grid.setPlayers(Integer.parseInt(players));
     }
